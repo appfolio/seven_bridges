@@ -1,0 +1,4 @@
+source 'https://rubygems.org'
+gem 'minitest'
+gem 'rake'
+gem 'seven_bridges', git: 'https://github.com/appfolio/seven_bridges.git'
