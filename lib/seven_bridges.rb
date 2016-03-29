@@ -66,6 +66,7 @@ module SevenBridges
 
         def add_calling_relationship(current)
           @callstack.last[:node].calls << current unless @callstack.empty?
+          current.called_by << @callstack.first[:node] unless @callstack.empty?
         end
 
         def find_parent
