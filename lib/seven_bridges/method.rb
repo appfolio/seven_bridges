@@ -12,6 +12,6 @@ module SevenBridges
     validates :type, presence: true
     #validates :num_incoming_refs, numericality: { only_integer: true }
     has_many :out, :calls , rel_class: 'SevenBridges::Call', model_class: 'SevenBridges::Method'
-    has_many :in, :called_by, rel_class: 'SevenBridges::Call', model_class: 'SevenBridges::Method'
+    has_many :out, :called_by, rel_class: 'SevenBridges::CalledBy', model_class: 'SevenBridges::TestMethod'
   end
 end

@@ -1,6 +1,7 @@
 require 'neo4j'
 require 'seven_bridges/method'
 require 'seven_bridges/call'
+require 'seven_bridges/called_by'
 require 'seven_bridges/test_method'
 
 module SevenBridges
@@ -29,8 +30,7 @@ module SevenBridges
             if tp.path.start_with? SevenBridges.project_root
               path = make_path(tp)
               if !path.end_with?('#teardown')
-                current = get_or_create_current_node(path)
-                find_location_and_build_graph(current)
+                find_location_and_build_graph path
               end
             end
           end
@@ -46,16 +46,18 @@ module SevenBridges
         def get_or_create_current_node(path)
           current = Method.find_by(path: path)
 
-          if current.nil? && @callstack.empty?
-            current = TestMethod.create(path: path, type: 'test')
-          elsif current.nil?
-            current = Method.create(path: path, type: 'app')
+          return current unless current.nil?
+
+          if @callstack.empty?
+            return TestMethod.create(path: path, type: 'test')
+          else
+            return Method.create(path: path, type: 'app')
           end
-          current
         end
 
-        def find_location_and_build_graph(current)
+        def find_location_and_build_graph(path)
           find_parent
+          current = get_or_create_current_node(path)
           add_calling_relationship current
           create_stack_frame current
         end
