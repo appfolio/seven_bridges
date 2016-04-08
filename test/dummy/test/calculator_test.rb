@@ -26,4 +26,9 @@ class CalculatorTest < Minitest::Test
     calculator = Calculator.new
     assert_equal(78.5, calculator.get_circle_area(5))
   end
+
+  def test_factorial
+    calculator = Calculator.new
+    assert_equal(120, calculator.factorial(5))
+  end
 end
