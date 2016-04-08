@@ -4,7 +4,8 @@ module SevenBridges
   class Method
     include Neo4j::ActiveNode
     #self.mapped_label_name = 'Method'
-    property :path
+    property :name
+    property :path, index: :exact
     property :type
     # property :num_incoming_refs, type: Integer, default: 0
 

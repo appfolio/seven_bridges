@@ -40,19 +40,16 @@ module SevenBridges
         private
 
         def make_path(tp)
-          "#{strip_path(tp.path)}##{tp.method_id}"
+          "#{strip_project_root(tp.path)}##{tp.method_id}"
         end
 
         def get_or_create_current_node(path)
           current = Method.find_by(path: path)
+          return current if current.present?
 
-          return current unless current.nil?
+          return TestMethod.create(name: get_method_name(path), path: path, type: 'test') if @callstack.empty?
 
-          if @callstack.empty?
-            return TestMethod.create(path: path, type: 'test')
-          else
-            return Method.create(path: path, type: 'app')
-          end
+          return Method.create(name: get_method_name(path), path: path, type: 'app')
         end
 
         def find_location_and_build_graph(path)
@@ -67,15 +64,15 @@ module SevenBridges
         end
 
         def add_calling_relationship(current)
-          @callstack.last[:node].calls << current unless @callstack.empty?
-          current.called_by << @callstack.first[:node] unless @callstack.empty?
+          return if @callstack.empty?
+
+          @callstack.last[:node].calls << current
+          current.called_by << @callstack.first[:node]
         end
 
         def find_parent
-          return if @callstack.empty?
-          while(caller.size <= @callstack.last[:level]) do
+          while(!@callstack.empty? && caller.size <= @callstack.last[:level]) do
             @callstack.pop
-            break if @callstack.empty?
           end
         end
 
@@ -85,12 +82,12 @@ module SevenBridges
           teardown_without_trace
         end
 
-        def executing_file
-          caller.first[/^[^:]+/]
+        def get_method_name(path)
+          path.split('#')[1]
         end
 
-        def strip_path(path)
-          path.gsub(SevenBridges.project_root, '')
+        def strip_project_root(path)
+          path[SevenBridges.project_root.length..-1]
         end
       end
     end

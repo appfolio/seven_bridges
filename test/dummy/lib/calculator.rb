@@ -26,4 +26,16 @@ class Calculator
   def get_circle_area(radius)
     multiply(StupidMath.get_approx_pi, square(radius))
   end
+
+  def factorial(num)
+    return factorial_recursive(1, num)
+  end
+
+  private
+
+  def factorial_recursive(total, num)
+    return total if num <= 1
+
+    return factorial_recursive(multiply(total, num), add(num, -1))
+  end
 end
