@@ -1,7 +1,5 @@
 module SevenBridges
   class MemoryStore
-    attr_reader :nodes
-
     def initialize
       @nodes = {}
       @edges = {}
@@ -9,6 +7,10 @@ module SevenBridges
 
     def edges
       @edges.keys
+    end
+
+    def nodes
+      @nodes.values
     end
 
     def find_method(path)
