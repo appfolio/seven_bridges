@@ -4,6 +4,7 @@ require 'seven_bridges/call'
 require 'seven_bridges/called_by'
 require 'seven_bridges/test_method'
 require 'seven_bridges/neo4j_store'
+require 'seven_bridges/memory_store'
 
 module SevenBridges
   class << self
