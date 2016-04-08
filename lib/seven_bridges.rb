@@ -3,10 +3,13 @@ require 'seven_bridges/method'
 require 'seven_bridges/call'
 require 'seven_bridges/called_by'
 require 'seven_bridges/test_method'
+require 'seven_bridges/neo4j_store'
+require 'seven_bridges/memory_store'
+require 'seven_bridges/memory_store_csv_dumper'
 
 module SevenBridges
   class << self
-    attr_writer :klass, :project_root
+    attr_writer :klass, :project_root, :store
 
     def klass
       @klass ||= Minitest::Test
@@ -14,6 +17,10 @@ module SevenBridges
 
     def project_root
       @project_root ||= ''
+    end
+
+    def store
+      @store ||= SevenBridges::Neo4jStore.new
     end
 
     def configure
@@ -44,12 +51,11 @@ module SevenBridges
         end
 
         def get_or_create_current_node(path)
-          current = Method.find_by(path: path)
+          current = store.find_method(path)
           return current if current.present?
 
-          return TestMethod.create(name: get_method_name(path), path: path, type: 'test') if @callstack.empty?
-
-          return Method.create(name: get_method_name(path), path: path, type: 'app')
+          return store.create_test_method_node(get_method_name(path), path) if @callstack.empty?
+          return store.create_method_node(get_method_name(path), path)
         end
 
         def find_location_and_build_graph(path)
@@ -66,8 +72,8 @@ module SevenBridges
         def add_calling_relationship(current)
           return if @callstack.empty?
 
-          @callstack.last[:node].calls << current
-          current.called_by << @callstack.first[:node]
+          store.add_relationship(:calls, @callstack.last[:node], current)
+          store.add_relationship(:called_by, current, @callstack.first[:node])
         end
 
         def find_parent
