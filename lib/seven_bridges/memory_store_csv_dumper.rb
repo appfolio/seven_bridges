@@ -23,7 +23,7 @@ module SevenBridges
       end
 
       CSV.open(edges_header_file, "wb") do |csv|
-        csv << [":START_ID", ":END_ID", ":LABEL"]
+        csv << [":START_ID", ":END_ID", ":TYPE"]
       end
 
       CSV.open(edges_file, "wb") do |csv|
