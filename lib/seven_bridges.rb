@@ -51,11 +51,11 @@ module SevenBridges
         end
 
         def get_or_create_current_node(path)
-          current = store.find_method(path)
+          current = SevenBridges.store.find_method(path)
           return current if current.present?
 
-          return store.create_test_method_node(get_method_name(path), path) if @callstack.empty?
-          return store.create_method_node(get_method_name(path), path)
+          return SevenBridges.store.create_test_method_node(get_method_name(path), path) if @callstack.empty?
+          return SevenBridges.store.create_method_node(get_method_name(path), path)
         end
 
         def find_location_and_build_graph(path)
@@ -72,8 +72,8 @@ module SevenBridges
         def add_calling_relationship(current)
           return if @callstack.empty?
 
-          store.add_relationship(:calls, @callstack.last[:node], current)
-          store.add_relationship(:called_by, current, @callstack.first[:node])
+          SevenBridges.store.add_relationship(:calls, @callstack.last[:node], current)
+          SevenBridges.store.add_relationship(:called_by, current, @callstack.first[:node])
         end
 
         def find_parent
