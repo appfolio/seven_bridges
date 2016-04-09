@@ -38,7 +38,7 @@ class MemoryStoreCSVDumperTest < Minitest::Test
     CSV
 
     assert_file_contents "relationships_header.csv", <<-CSV.strip_heredoc
-      :START_ID,:END_ID,:LABEL
+      :START_ID,:END_ID,:TYPE
     CSV
 
     assert_file_contents "relationships.csv", <<-CSV.strip_heredoc
