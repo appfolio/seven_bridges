@@ -27,11 +27,7 @@ module SevenBridges
       yield self
 
       klass.class_eval do
-        alias_method :setup_without_trace, :setup
-        alias_method :teardown_without_trace, :teardown
-
-        def setup
-          setup_without_trace
+        def after_setup
           @callstack = []
           @trace = TracePoint.new(:call) do |tp|
             if tp.path.start_with? SevenBridges.project_root
@@ -82,10 +78,9 @@ module SevenBridges
           end
         end
 
-        def teardown
+        def before_teardown
           @trace.disable
           @callstack = []
-          teardown_without_trace
         end
 
         def get_method_name(path)
