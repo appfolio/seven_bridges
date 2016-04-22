@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Scott Speidel', 'Michael Jewell', 'Stanley Fung']
   spec.email         = ['scottspeidel@gmail.com', 'michaeljewell9911@gmail.com']
 
-  spec.summary       = 'Tool to help understand the relationships between R7uby methods'
+  spec.summary       = 'Tool to help understand the relationships between ruby methods'
   spec.description   = ''
   spec.homepage      = 'https://github.com/appfolio/seven_bridges'
   spec.license       = 'MIT'
