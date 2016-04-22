@@ -1,4 +1,5 @@
 require 'neo4j'
+require 'minitest'
 require 'seven_bridges/method'
 require 'seven_bridges/call'
 require 'seven_bridges/called_by'
