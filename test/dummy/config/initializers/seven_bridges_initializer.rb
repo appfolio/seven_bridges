@@ -10,5 +10,4 @@ SevenBridges.configure do |config|
 
   #config.klass = MiniTest::Test
   config.project_root = '/Users/scottspeidel/src/github/appfolio/seven_bridges'
-
 end

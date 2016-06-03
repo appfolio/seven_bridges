@@ -40,7 +40,7 @@ module SevenBridges
     end
 
     def nodes_file
-      File.join(@base_path, "nodes.csv")
+      File.join(@base_path, "#{Process.pid}_nodes.csv")
     end
 
     def edges_header_file
@@ -48,7 +48,7 @@ module SevenBridges
     end
 
     def edges_file
-      File.join(@base_path, "relationships.csv")
+      File.join(@base_path, "#{Process.pid}_relationships.csv")
     end
   end
 end

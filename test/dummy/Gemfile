@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
 gem 'minitest'
 gem 'rake'
-gem 'seven_bridges',  :github => 'appfolio/seven_bridges', :branch => 'master'
+gem 'seven_bridges',  github: 'appfolio/seven_bridges', branch: 'master'
 
